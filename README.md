@@ -1,4 +1,4 @@
-# aYUdaNTé
+# [aYUdaNTé]
 A smart vacuum built online in [tinkercad](https://www.tinkercad.com/things/9JCeAIEu0vn-smart-vacuum-cleaner) for RoboSInC 2021
 
 ## What will you need
@@ -21,3 +21,5 @@ A smart vacuum built online in [tinkercad](https://www.tinkercad.com/things/9JCe
 |MDF|-|
 |Generic Portable Vacuum Cleaner|-|
 |Portable Vacuum Cleaner|-|
+
+## Rechargable
