@@ -14,28 +14,49 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //
 //
+// import library
+#include <Servo.h>
+
 // define pin number
 
-//define vacuum pin
-int vacPin = 13;
-
 //define motor pin
-int Lmotor1 = 12;
-int Lmotor2 = 11;
-int Rmotor1 = 10;
-int Rmotor2 = 9;
+#define Lmotor1 13
+#define Lmotor2 12
+#define Rmotor1 9
+#define Rmotor2 8
 
 //define sensor pin
-int trigl = 8;
-int echol = 7;
-int trigc = 6;
-int echoc = 5;
-int trigr = 4;
-int echor = 3;
+#define trigl 7
+#define echol 6
+#define trigc 5
+#define echoc 4
+#define trigr 3
+#define echor 2
 
+//define buzzer pin
+#define buzz 11
+
+//define servo pin
+#define serv 10
+
+// initialize servo object
+Servo servo;
 
 // define global variable
-int trigDist = 30;
+// define sensor trigger distance in cm
+int trigDist = 5;
+
+// store servo rotation
+int rot = 0;
+
+// store random number
+long chance;
+
+// define chances of spraying water in percentage
+int sprayc = 20;
+
+// define servo step time
+int sstep = 5;
 
 // run once
 void setup(){
@@ -46,13 +67,32 @@ void setup(){
   // initialize pin
   pinInit();
 
+  // startup sound
+  tone(buzz,1000);
+  delay(100);
+  tone(buzz,500);
+  delay(100);    
+  noTone(buzz); 
+  
+  // getnoises for random number generator
+  randomSeed(analogRead(0));
 }
 
 // run forever
 void loop(){
+  
+  // generate random number
+  	chance = random(100);
+  
+  // check the chances of spraying every loop
+  if(chance <= sprayc){
 
-  // activate vacuum motor
-  digitalWrite(vacPin, HIGH);
+    // calls the spray method
+    spray();
+  }
+
+  // wait until finish spray
+  delay(sstep*360);
 
   // get distacne from each ultrasonic sensor
   int distancel = findDistance(trigl,echol);
@@ -229,11 +269,33 @@ int findDistance(int trigpin,int echopin){
 
 }
 
+void spray(){
+
+  // servo rotate from 0 degree to 180 degree
+  for (rot = 0; rot <= 180; rot += 1) {
+
+    // servo rotate to `rot`
+    servo.write(rot);
+
+    // wait 15 milisecond before looping
+    delay(5);
+
+  }
+
+  // servo rotate from 180 degree to 0 degree
+  for (rot = 180; rot >= 0; rot -= 1) {
+
+    // servo rotate to `rot`
+    servo.write(rot);
+
+    // wait 15 milisecond before looping
+    delay(5);
+
+  }
+}
+
 // initialize pin
 void pinInit(){
-
-  // initiaize vacuum pin
-  pinMode(vacPin, OUTPUT);
 
   // initialize motor pin
   pinMode(Lmotor1, OUTPUT);
@@ -248,6 +310,10 @@ void pinInit(){
   pinMode(echoc, INPUT);
   pinMode(trigr, OUTPUT);
   pinMode(echor, INPUT);
+
+  // initialize buzzer pin
+  pinMode(buzz, OUTPUT);
+
+  // initialize servo pin
+  servo.attach(serv);
 }
-
-
