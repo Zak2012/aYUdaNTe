@@ -1,5 +1,5 @@
 # [aYUdaNTé]
-A smart vacuum built online in [tinkercad](https://www.tinkercad.com/things/9JCeAIEu0vn-smart-vacuum-cleaner) for RoboSInC 2021
+A smart vacuum built online in [tinkercad](https://www.tinkercad.com/things/9JCeAIEu0vn-smart-vacuum-cleaner) for RoboSInC Malaysia 2021
 
 ## What will you need
 | Item  | Quantity |
