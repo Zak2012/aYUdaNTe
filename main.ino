@@ -19,19 +19,9 @@
 
 // define pin number
 
-//define motor pin
-#define Lmotor1 13
-#define Lmotor2 12
-#define Rmotor1 9
-#define Rmotor2 8
-
 //define sensor pin
-#define trigl 7
-#define echol 6
-#define trigc 5
-#define echoc 4
-#define trigr 3
-#define echor 2
+#define trig 13
+#define echo 12
 
 //define buzzer pin
 #define buzz 11
@@ -39,21 +29,18 @@
 //define servo pin
 #define serv 10
 
+//define motor pin
+#define Lmotor1 9
+#define Lmotor2 8
+#define Rmotor1 7
+#define Rmotor2 6
+
 // initialize servo object
 Servo servo;
 
 // define global variable
 // define sensor trigger distance in cm
-int trigDist = 5;
-
-// store servo rotation
-int rot = 0;
-
-// store random number
-long chance;
-
-// define chances of spraying water in percentage
-int sprayc = 20;
+int trigDist = 10;
 
 // define servo step time
 int sstep = 5;
@@ -81,31 +68,8 @@ void setup(){
 // run forever
 void loop(){
   
-  // generate random number
-  	chance = random(100);
-  
-  // check the chances of spraying every loop
-  if(chance <= sprayc){
-
-    // calls the spray method
-    spray();
-  }
-
-  // wait until finish spray
-  delay(sstep*360);
-
-  // get distacne from each ultrasonic sensor
-  int distancel = findDistance(trigl,echol);
-  int distancec = findDistance(trigc,echoc);
-  int distancer = findDistance(trigr,echor);
-
-  // print distance value from all sensor for debugging purpose
-  Serial.print("Lsensor : ");
-  Serial.print(distancel);
-  Serial.print("  Csensor : ");
-  Serial.print(distancec);
-  Serial.print("  Rsensor : ");
-  Serial.println(distancer);
+  // get distacne from front
+  int distancec = findDistance(trig,echo);
 
   // sets condition for bot when there are wall blocking
   /*          ■
@@ -117,6 +81,26 @@ void loop(){
   /           ■          */
 
   if(distancec <= trigDist){
+
+    // get distance from left and right
+    // rotate servo to right
+    rotate(0,90,1);
+    delay(sstep*90);
+    int distancer = findDistance(trig,echo);
+
+    // rotate servo to left
+    rotate(90,-90,-1);
+    delay(sstep*180);
+    int distancel = findDistance(trig,echo);
+
+    // print distance value from all sensor for debugging purpose
+    Serial.print("Lsensor : ");
+    Serial.print(distancel);
+    Serial.print("  Csensor : ");
+    Serial.print(distancec);
+    Serial.print("  Rsensor : ");
+    Serial.println(distancer);
+
 
     // condition 1 : wall on front and right
     /*          ■
@@ -269,27 +253,19 @@ int findDistance(int trigpin,int echopin){
 
 }
 
-void spray(){
+void rotate(int startrot,int rotation,int direction){
 
-  // servo rotate from 0 degree to 180 degree
-  for (rot = 0; rot <= 180; rot += 1) {
+  // store current rotation
+  int rot = 0;
 
-    // servo rotate to `rot`
-    servo.write(rot);
-
-    // wait 15 milisecond before looping
-    delay(5);
-
-  }
-
-  // servo rotate from 180 degree to 0 degree
-  for (rot = 180; rot >= 0; rot -= 1) {
+  // servo rotate from current rotation to `rotation`
+  for (rot = startrot; rot <= rotation; rot += direction) {
 
     // servo rotate to `rot`
     servo.write(rot);
 
-    // wait 15 milisecond before looping
-    delay(5);
+    // wait `sstep` milisecond before looping
+    delay(sstep);
 
   }
 }
@@ -304,12 +280,8 @@ void pinInit(){
   pinMode(Rmotor2, OUTPUT);
 
   // initialize sensor pin
-  pinMode(trigl, OUTPUT);
-  pinMode(echol, INPUT);
-  pinMode(trigc, OUTPUT);
-  pinMode(echoc, INPUT);
-  pinMode(trigr, OUTPUT);
-  pinMode(echor, INPUT);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
 
   // initialize buzzer pin
   pinMode(buzz, OUTPUT);
