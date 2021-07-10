@@ -6,7 +6,7 @@
 ////    RoboSInC 2021                                                                      ////
 ////                                                                                       ////
 ////    Smart vacuum Cleaner -                                                             ////
-////    https://www.tinkercad.com/things/9JCeAIEu0vn-smart-vacuum-cleaner                  ////
+////    https://www.tinkercad.com/things/9JCeAIEu0vn                                       ////
 ////                                                                                       ////
 ////    ROBOS046 - SMK SULTAN ALAUDDIN - TINGKATAN 3 - WAN AMIRUL AIMAN BIN WAN HUSYAIDI   ////
 ////                                                                                       ////
