@@ -92,6 +92,10 @@ void loop(){
     rotate(90,-90,-1);
     delay(sstep*180);
     int distancel = findDistance(trig,echo);
+    
+    // rotate back to original position
+    rotate(270,360,1);
+    delay(sstep*180);
 
     // print distance value from all sensor for debugging purpose
     Serial.print("Lsensor : ");
