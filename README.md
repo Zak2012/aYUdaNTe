@@ -5,7 +5,7 @@ A smart vacuum built online in [tinkercad](https://www.tinkercad.com) for RoboSI
 | Item  | Quantity |
 | ------------- | ------------- |
 |Arduino Pro Mini|1|
-|HC-SR04 Ultrasonic Module|3|
+|HC-SR04 Ultrasonic Module|1|
 |L293D Motor Driver|1|
 |5Volt N20 Motors and Mounting Brackets|2|
 |N20 Motor Wheels|2|
